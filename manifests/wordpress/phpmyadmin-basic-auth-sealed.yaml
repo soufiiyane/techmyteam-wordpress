@@ -1,0 +1,12 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: phpmyadmin-basic-auth
+  namespace: wordpress
+spec:
+  encryptedData:
+    auth: AgB3NCwEfneZcr1n5iFNaLK8ecuyDqYm6vojpiH72B0z+Z953A8kEUR4qt3kV1x7/k7gApOGMEITSd86eV6HCs/rPklEizFjnFQ8UqN3A6NHBhOs9hhgb44BwErFdK2zWMeba6XCH8VjiFwQoPavLqR4Vk/+/p3QOprCRynyh4T4oLY4yxFq1GpHueUcQxLsKnVdQWTHU+G0eR0iOFvf3sp8NtmGzhunLFMxyms0RzJRsuaySNJ0X5xDC2nIsCk3WU9JQubfK+FWFnDuSJyH6GV9FFvPS0LntPsfOpMixxI1ZX3LWylwZzFVe0ew6AsJXM5Wl4Q3NBnsC5zCnk+EvsVd+f8vArNYoXladtEF8Dm7RPJ+A1mK0EDRNlNPIRy82HlE5pM8xLFSpy4xzPH9yVrHBH24n+ww5AUEU8to2uqJSqu4EKnUYrAtp+13fVVp56adn0iOVuCn6H8GA5hFhqX3fQERTYrXl0CMhF14k1LlxHj//Pp+2H+aTLyF4hGVI80jZ1Qe7+ODpasid9JSMjAYmXnSGRYb++IhzPHhhaXtTgD6pGpwpByxXRItqHVBmvZWh4Dq3LnW4qnYOwIbz89GNvhxzNCYOS/D0zcFRvERLQomTtBrjS0UwGkMbykA5Hl4dEh4b98vlmoOh/Hn4iJRwHvgGUbjK8CIVyRGrh43E/x4dsVRSYtLtMvMgvcQ+73DJ5whKT//KNfcsZZpeeaXE8FV3XH6WMnKE713gKS5PZy0KrBvwLgRQDKgNMMHPIqcdW3CxiY=
+  template:
+    metadata:
+      name: phpmyadmin-basic-auth
+      namespace: wordpress
