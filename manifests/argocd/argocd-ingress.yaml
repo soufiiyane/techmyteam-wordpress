@@ -11,7 +11,7 @@ spec:
   tls:
   - hosts:
     - argocd.usemirai.site
-    secretName: argocd-usemirai-site-tls
+    secretName: argocd-site-tls
   rules:
   - host: argocd.usemirai.site
     http:
