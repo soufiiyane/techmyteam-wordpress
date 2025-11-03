@@ -16,6 +16,13 @@ spec:
       containers:
       - name: mysql
         image: mysql:8.0
+        resources:
+          requests:
+            cpu: 300m
+            memory: 1Gi
+          limits:
+            cpu: 750m
+            memory: 2Gi
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
@@ -27,16 +34,6 @@ spec:
             secretKeyRef:
               name: mysql-credentials
               key: mysql-database
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: mysql-credentials
-              key: mysql-user
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-credentials
-              key: mysql-password
         ports:
         - name: mysql
           containerPort: 3306
