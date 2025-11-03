@@ -4,7 +4,7 @@ metadata:
   name: wordpress
   namespace: wordpress
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: wordpress
@@ -13,29 +13,12 @@ spec:
       labels:
         app: wordpress
     spec:
-      initContainers:
-      - name: init-wordpress-content
-        image: soufiiyane/tmt-wordpress:latest
-        command:
-        - sh
-        - -c
-        - |
-          if [ -z "$(find /seed -mindepth 1 ! -name 'lost+found' -print -quit)" ]; then
-            echo "wp-content empty; seeding from image."
-            cp -a /var/www/html/wp-content/. /seed/
-            chown -R www-data:www-data /seed
-          else
-            echo "wp-content already populated; skipping seed."
-          fi
-        volumeMounts:
-        - name: wordpress-content
-          mountPath: /seed
+      imagePullSecrets:
+      - name: dockerhub-credentials
       containers:
       - name: wordpress
         image: soufiiyane/tmt-wordpress:latest
-        ports:
-        - containerPort: 80
-          name: http
+        imagePullPolicy: Always
         env:
         - name: WORDPRESS_DB_HOST
           value: mysql.wordpress.svc.cluster.local:3306
@@ -45,15 +28,12 @@ spec:
               name: mysql-credentials
               key: mysql-database
         - name: WORDPRESS_DB_USER
-          valueFrom:
-            secretKeyRef:
-              name: mysql-credentials
-              key: mysql-user
+          value: root
         - name: WORDPRESS_DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: mysql-credentials
-              key: mysql-password
+              key: mysql-root-password
         - name: WORDPRESS_TABLE_PREFIX
           value: ax_
         - name: SMTP_HOST
@@ -72,8 +52,7 @@ spec:
               key: smtp-password
         - name: WORDPRESS_CONFIG_EXTRA
           value: |
-            define( 'WP_HOME', 'https://usemirai.site' );
-            define( 'WP_SITEURL', 'https://usemirai.site' );
+            define( 'FORCE_SSL_ADMIN', true );
             define( 'WPMS_ON', true );
             define( 'WPMS_SMTP_AUTH', true );
             define( 'WPMS_SMTP_AUTO_TLS', false );
@@ -101,11 +80,14 @@ spec:
           value: "QRROx/wu{[EX/g(vv-@oE.4[BNB7AQ+,X( 3Vwipl-s^B]X|KUvvw+AZi`)+sxhs"
         - name: WORDPRESS_NONCE_SALT
           value: "-i8^T+IyT,>YXRc`~`|y>G^|c3_R9]fvKP]r#i;N*k#$kWaRS^TDJaKO*L&{?D_5"
+        ports:
+        - containerPort: 80
+          name: http
         volumeMounts:
-        - name: wordpress-content
-          mountPath: /var/www/html/wp-content
+        - name: wordpress-uploads
+          mountPath: /var/www/html/wp-content/uploads
       volumes:
-      - name: wordpress-content
+      - name: wordpress-uploads
         persistentVolumeClaim:
           claimName: wordpress-uploads
 ---
