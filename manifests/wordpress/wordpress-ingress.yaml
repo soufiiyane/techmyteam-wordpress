@@ -10,10 +10,6 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-path: "/"
 spec:
   ingressClassName: nginx
-  tls:
-  - hosts:
-    - usemirai.site
-    secretName: usemirai-site-tls
   rules:
   - host: usemirai.site
     http:
@@ -25,3 +21,7 @@ spec:
             name: wordpress
             port:
               number: 80
+  tls:
+  - hosts:
+    - usemirai.site
+    secretName: usemirai-site-tls
